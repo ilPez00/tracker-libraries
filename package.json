@@ -1,0 +1,20 @@
+{
+  "name": "tracker-libraries",
+  "version": "0.1.0",
+  "description": "Curated reference data for habit, fitness, nutrition and study trackers: exercises, foods, books, medications, languages and more. Zero dependencies.",
+  "keywords": ["tracker", "fitness", "nutrition", "exercise", "habits", "reference-data", "dataset"],
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "src"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc --noEmit && node --experimental-strip-types --test test/*.test.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}
