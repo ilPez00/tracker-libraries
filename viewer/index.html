@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tracker Libraries — Browser</title>
+<style>
+body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; background:#0f172a; color:#e2e8f0; }
+h1 { margin:0 0 12px; }
+.controls { display:flex; gap:8px; margin-bottom:12px; }
+select, input { padding:8px; border-radius:6px; border:1px solid #334155; background:#1e293b; color:#e2e8f0; }
+input { flex:1; }
+.grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap:8px; }
+.card { background:#1e293b; border:1px solid #334155; border-radius:8px; padding:10px; }
+.card h3 { margin:0 0 4px; font-size:14px; }
+.card pre { margin:0; font-size:12px; white-space:pre-wrap; color:#94a3b8; }
+.count { margin-bottom:8px; color:#94a3b8; }
+</style>
+</head>
+<body>
+<h1>Tracker Libraries Browser</h1>
+<div class="controls">
+  <select id="dataset"></select>
+  <input id="q" placeholder="Search..." />
+</div>
+<div class="count" id="count"></div>
+<div class="grid" id="grid"></div>
+<script>
+fetch('data.json').then(r=>r.json()).then(data=>{
+  const sel=document.getElementById('dataset');
+  const keys=Object.keys(data).filter(k=>Array.isArray(data[k]));
+  keys.forEach(k=>{ const o=document.createElement('option'); o.value=k; o.textContent=k; sel.appendChild(o); });
+  const grid=document.getElementById('grid');
+  const count=document.getElementById('count');
+  const q=document.getElementById('q');
+  function render(){
+    const ds=sel.value; const term=q.value.toLowerCase();
+    const items=data[ds].filter(x=>JSON.stringify(x).toLowerCase().includes(term));
+    count.textContent=items.length+' / '+data[ds].length;
+    grid.innerHTML='';
+    items.slice(0,200).forEach(x=>{
+      const c=document.createElement('div'); c.className='card';
+      const title = x.name || x.title || x.label || x.id || '';
+      c.innerHTML='<h3>'+escape(title)+'</h3><pre>'+escape(JSON.stringify(x,null,2))+'</pre>';
+      grid.appendChild(c);
+    });
+  }
+  function escape(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  sel.addEventListener('change',render);
+  q.addEventListener('input',render);
+  render();
+});
+</script>
+</body>
+</html>
