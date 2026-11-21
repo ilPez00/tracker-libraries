@@ -8,7 +8,8 @@ TypeScript arrays plus small search helpers — no database, no network, no
 service to stand up. Import it and render a picker.
 
 ```bash
-npm install tracker-libraries
+# Not yet published to npm — install from git:
+npm install github:ilPez00/tracker-libraries
 ```
 
 ```ts
@@ -21,6 +22,13 @@ parseWeightLabel('1,5 kg');      // 1500   — grams, comma decimals included
 
 Every dataset is exported as a named constant; every search helper is
 case-insensitive and returns `[]` on no match rather than the whole list.
+
+> **TL;DR.** 2,439 curated records across 25 datasets (exercises, foods, books, habits,
+> medications, …): plain TypeScript arrays + search helpers, zero runtime dependencies.
+> Extracted from a shipping app ([Praxis](https://praxisweb.xyz)). MIT.
+> **Verified 2026-11-21:** `npm install && npm test` green on fresh checkouts (Node 22
+> and Node 24); the runner compiles with tsc, so it works on Node builds without TS
+> stripping. Not on npm yet — install from git (above).
 
 ## Datasets
 
@@ -83,3 +91,11 @@ clinical decision.
 MIT — see [LICENSE](LICENSE).
 
 Extracted from [Praxis](https://praxisweb.xyz).
+
+## Verified 2026-11-21
+
+Portfolio audit, fresh checkouts: `npm install && npm test` → typecheck + **4 tests pass,
+0 fail**. The test runner now compiles src+tests with tsc and runs `node --test` on the
+output, so it works on Node builds without compiled TypeScript support (the previous
+`--experimental-strip-types` script failed there with `ERR_NO_TYPESCRIPT`, observed on
+node 24.22.2). npm publication is pending; until then install from git.
